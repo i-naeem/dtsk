@@ -62,6 +62,6 @@ class Image(Model):
     image = ImageField(
         null=True,
         blank=True,
-        upload_to="images/"
+        upload_to="images/",
         verbose_name="Product Image",
     )
