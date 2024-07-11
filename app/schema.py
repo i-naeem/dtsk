@@ -20,6 +20,46 @@ class ProductType(graphene_django.DjangoObjectType):
         return root.images.all()
 
 
+class UpdateCreateProduct(graphene.Mutation):
+    # response type
+    product = graphene.Field(ProductType)
+
+    class Arguments:
+        id = graphene.ID(required=False)
+        name = graphene.String(required=True)
+        price = graphene.Decimal(required=True)
+        quantity = graphene.Int(required=False)
+
+    @classmethod
+    def mutate(cls, root, info, name, price, quantity=1, id=None):
+        if id is not None:
+            product = models.Product.objects.get(pk=id)
+            product.name = name
+            product.price = price
+            product.quantity = quantity
+            product.save()
+
+            return UpdateCreateProduct(product=product)
+
+        else:
+            product = models.Product(name=name, price=price, quantity=quantity)
+            product.save()
+            return UpdateCreateProduct(product=product)
+
+
+class DeleteProduct(graphene.Mutation):
+    ok = graphene.Boolean()
+
+    class Arguments:
+        id = graphene.ID(required=True)
+
+    @classmethod
+    def mutate(cls, root, info, id):
+        product = models.Product.objects.get(pk=id)
+        product.delete()
+        return cls(ok=True)
+
+
 class OrderType(graphene_django.DjangoObjectType):
     products = graphene_django.DjangoListField(ProductType)
 
@@ -49,4 +89,9 @@ class Query(graphene.ObjectType):
         return models.Order.objects.get(pk=id)
 
 
-schema = graphene.Schema(query=Query)
+class Mutation(graphene.ObjectType):
+    update_product = UpdateCreateProduct.Field()
+    delete_product = DeleteProduct.Field()
+
+
+schema = graphene.Schema(query=Query, mutation=Mutation)
