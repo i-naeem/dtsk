@@ -25,4 +25,29 @@ class Query(graphene.ObjectType):
         return models.Product.objects.prefetch_related("images").get(pk=id)
 
 
-schema = graphene.Schema(query=Query)
+class ProductMutation(graphene.Mutation):
+    class Arguments:
+        product_name = graphene.String(required=True)
+        product_quantity = graphene.Int(required=True)
+        product_price = graphene.Float(required=True)
+
+    product = graphene.Field(ProductType)
+
+    @classmethod
+    def mutate(cls, root, info, product_name, product_quantity, product_price):
+        product = models.Product(
+            product_name=product_name,
+            product_quantity=product_quantity,
+            product_price=product_price
+        )
+
+        product.save()
+
+        return ProductMutation(product=product)
+
+
+class Mutation(graphene.ObjectType):
+    create_product = ProductMutation.Field()
+
+
+schema = graphene.Schema(query=Query, mutation=Mutation)
