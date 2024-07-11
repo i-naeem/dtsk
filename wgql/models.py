@@ -26,4 +26,5 @@ class ProductImages(models.Model):
     image_url = models.ImageField(
         upload_to='product_images/', help_text="Select the product images")
 
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    product = models.ForeignKey(
+        Product, related_name="images", on_delete=models.CASCADE)

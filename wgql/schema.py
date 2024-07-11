@@ -3,10 +3,18 @@ import graphene_django
 from wgql import models
 
 
+class ProductImagesType(graphene_django.DjangoObjectType):
+    class Meta:
+        model = models.ProductImages
+
+
 class ProductType(graphene_django.DjangoObjectType):
     class Meta:
         model = models.Product
-        fields = ["id", "product_name", "product_quantity", "product_price"]
+        images = graphene_django.DjangoListField(ProductImagesType)
+
+        def resolve_images(root, info):
+            return models.Product.objects.prefetch_related('images').all()
 
 
 class Query(graphene.ObjectType):
@@ -14,7 +22,7 @@ class Query(graphene.ObjectType):
     products = graphene_django.DjangoListField(ProductType)
 
     def resolve_product(root, info, id):
-        return models.Product.objects.get(pk=id)
+        return models.Product.objects.prefetch_related("images").get(pk=id)
 
 
 schema = graphene.Schema(query=Query)
