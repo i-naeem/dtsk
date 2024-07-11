@@ -56,7 +56,7 @@ class Image(Model):
         on_delete=CASCADE,
         related_name="product_image",
         verbose_name="Product",
-        help="The product in the images"
+        help_text="The product in the images"
     )
 
     image = ImageField(
