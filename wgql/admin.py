@@ -1,10 +1,9 @@
 from django.contrib import admin
 
-from wgql.models import Order
-from wgql.models import Product
-from wgql.models import ProductImages
+from .models import Image
+from .models import Order
+from .models import Product
 
-# Register your models here.
-admin.site.register(Order)
 admin.site.register(Product)
-admin.site.register(ProductImages)
+admin.site.register(Order)
+admin.site.register(Image)
