@@ -40,6 +40,9 @@ INSTALLED_APPS = [
 
     # My Apps
     "wgql.apps.WgqlConfig",
+    "graphene_django"
+
+
 ]
 
 MIDDLEWARE = [
