@@ -1,0 +1,16 @@
+{% extends "base.html" %} {% block content %}
+<main>
+  {% if products %}
+  <h1>This order following products</h1>
+  <ol>
+    {% for product in products %}
+    <li>
+      <h3><a href="{% url 'app:product' product.id %}">{{ product.name }}</a></h3>
+    </li>
+    {% endfor %}
+  </ol>
+  {% else %}
+  <h1>No products are available.</h1>
+  {% endif %}
+</main>
+{% endblock content %}

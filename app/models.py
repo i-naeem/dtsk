@@ -1,6 +1,16 @@
 from django.db import models
 
 
+class Order(models.Model):
+    created_at = models.DateTimeField(
+        verbose_name="Order Created Date",
+        auto_now_add=True
+    )
+
+    def __str__(self):
+        return f"{self.pk}"
+
+
 class Product(models.Model):
     name = models.CharField(
         max_length=255,
@@ -19,6 +29,14 @@ class Product(models.Model):
         decimal_places=2,
         verbose_name="Product Price",
         help_text="Enter the price of the product"
+    )
+
+    order = models.ForeignKey(
+        to=Order,
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        verbose_name="Order",
     )
 
     def __str__(self):

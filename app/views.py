@@ -1,18 +1,28 @@
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render, get_object_or_404, redirect, get_list_or_404
 from django.urls import reverse
 from .forms import ProductForm
+from .forms import OrderForm
 from .models import Product
 from .models import Image
+from .models import Order
 
 
 def index(request):
     products = Product.objects.all()
-    return render(request, 'index.html', {"products": products})
+    orders = Order.objects.all()
+    return render(request, 'index.html', {"products": products, "orders": orders})
 
 
 def product(request, product_id):
     product = get_object_or_404(Product, pk=product_id)
-    return render(request, 'detail.html', {"product": product})
+    return render(request, 'product.html', {"product": product})
+
+
+def order(request, order_id):
+    order = get_object_or_404(Order, pk=order_id)
+    products = Product.objects.filter(order=order)
+
+    return render(request, 'order.html', {"products": products})
 
 
 def create_product(request):
@@ -30,3 +40,22 @@ def create_product(request):
 
     context = {"form": ProductForm()}
     return render(request, 'create_product.html', context)
+
+
+def create_order(request):
+
+    if request.method == "POST":
+        form = OrderForm(request.POST)
+
+        if form.is_valid():
+            order = form.save()
+
+            for product_id in dict(form.data).get('products'):
+                product = Product.objects.get(pk=product_id)
+                product.order = order
+                product.save()
+
+            return redirect(reverse('app:order', kwargs={"order_id": order.id}))
+
+    context = {"form": OrderForm()}
+    return render(request, 'create_order.html', context)

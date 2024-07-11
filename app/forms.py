@@ -1,4 +1,5 @@
 from django import forms
+from .models import Order
 from .models import Product
 
 
@@ -8,13 +9,13 @@ class ProductForm(forms.ModelForm):
         fields = ["name", "price", "quantity"]
 
 
-# class OrderForm(forms.ModelForm):
-#     products = forms.ModelMultipleChoiceField(
-#         queryset=Product.objects.all(),
-#         widget=forms.CheckboxSelectMultiple,
-#         help_text="Select the products for this order"
-#     )
+class OrderForm(forms.ModelForm):
+    products = forms.ModelMultipleChoiceField(
+        queryset=Product.objects.all(),
+        widget=forms.CheckboxSelectMultiple,
+        help_text="Select the products for this order"
+    )
 
-#     class Meta:
-#         model = Order
-#         fields = ["products"]
+    class Meta:
+        model = Order
+        fields = ["products"]

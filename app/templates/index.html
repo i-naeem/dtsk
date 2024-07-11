@@ -4,11 +4,28 @@
   <h1>List of Products</h1>
   <ol>
     {% for product in products %}
-    <li><a href="{% url 'app:product' product.id %}">{{ product.name }}</a></li>
+    <li>
+      <h3><a href="{% url 'app:product' product.id %}">{{ product.name }}</a></h3>
+    </li>
     {% endfor %}
   </ol>
   {% else %}
   <p>No products are available.</p>
+  {% endif %}
+
+  <br />
+  <hr />
+  {% if orders %}
+  <h1>List of Orders</h1>
+  <ol>
+    {% for order in orders %}
+    <li>
+      <h4><a href="{% url 'app:order' order.id %}">Click here to view details for order: {{ order.id }}</a></h4>
+    </li>
+    {% endfor %}
+  </ol>
+  {% else %}
+  <p>No orders are available.</p>
   {% endif %}
 </main>
 {% endblock content %}
