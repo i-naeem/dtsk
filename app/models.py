@@ -1,4 +1,7 @@
 from django.db import models
+from pathlib import Path
+from uuid import uuid4
+import os
 
 
 class Order(models.Model):
@@ -43,10 +46,17 @@ class Product(models.Model):
         return self.name
 
 
+def get_image_path(instance, filename):
+    file_path = Path(filename)
+    file_name = str(uuid4()) + file_path.suffix
+
+    return os.path.join('products', file_name)
+
+
 class Image(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     image = models.ImageField(
-        upload_to="products/",
+        upload_to=get_image_path,
         verbose_name="Product Image",
         help_text="Select the product image"
     )
