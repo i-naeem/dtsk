@@ -41,9 +41,12 @@ class Product(Model):
 
     order_id = ForeignKey(
         to=Order,
+        null=True,
+        blank=True,
+        on_delete=SET_NULL,
         related_name="order",
         verbose_name="Order ID",
-        on_delete=SET_NULL
+
     )
 
     def __str__(self) -> str:
