@@ -8,5 +8,5 @@ urlpatterns = [
 
 # Without GraphQL App URLS
 urlpatterns += [
-    path('without-graphql', include('wgql.urls'))
+    path('without-graphql/', include('wgql.urls'))
 ]
