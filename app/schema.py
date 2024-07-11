@@ -32,9 +32,21 @@ class OrderType(graphene_django.DjangoObjectType):
 
 
 class Query(graphene.ObjectType):
-    all_products = graphene_django.DjangoListField(ProductType)
-    all_images = graphene_django.DjangoListField(ImageType)
-    all_orders = graphene_django.DjangoListField(OrderType)
+    products = graphene_django.DjangoListField(ProductType)
+    images = graphene_django.DjangoListField(ImageType)
+    orders = graphene_django.DjangoListField(OrderType)
+
+    product = graphene.Field(
+        ProductType, id=graphene.Int(required=True))
+
+    def resolve_product(root, info, id):
+        return models.Product.objects.get(pk=id)
+
+    order = graphene.Field(
+        OrderType, id=graphene.Int(required=True))
+
+    def resolve_order(root, info, id):
+        return models.Order.objects.get(pk=id)
 
 
 schema = graphene.Schema(query=Query)
