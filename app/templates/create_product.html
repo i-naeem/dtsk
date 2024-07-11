@@ -1,0 +1,10 @@
+{% extends "base.html" %} {% block content %}
+<main>
+  <h1>Create a new product</h1>
+  <form>
+    {% csrf_token %}
+    <br />
+    {{form}}
+  </form>
+</main>
+{% endblock content %}
