@@ -5,8 +5,6 @@ from django.db import models
 class Order(models.Model):
     order_id = models.AutoField(primary_key=True)
     order_date = models.DateField(auto_now_add=True)
-    # TODO: When switching to POSTGRESQL change this to ArrayField
-    products = models.CharField(max_length=120, default="")
 
     def __str__(self) -> str:
         return f"{self.order_id}:{self.order_date}"
@@ -19,6 +17,8 @@ class Product(models.Model):
         help_text="Enter the quantity of the product")
     product_price = models.DecimalField(
         max_digits=10, decimal_places=2, help_text="Enter the price of the product")
+
+    order = models.ForeignKey(Order, on_delete=models.SET_NULL, null=True)
 
 
 class ProductImages(models.Model):

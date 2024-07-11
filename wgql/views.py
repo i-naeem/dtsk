@@ -32,4 +32,18 @@ def create_images(request):
 
 
 def create_order(request):
-    return render(request, 'create_order.html', {})
+    context = {"form": forms.OrderForm()}
+
+    if request.method == "POST":
+        form = forms.OrderForm(request.POST)
+
+        if form.is_valid():
+            order = form.save()
+            for product_id in dict(form.data).get('products'):
+                product = models.Product.objects.get(id=product_id)
+                product.order_id = order
+                product.save()
+
+            return redirect(reverse('index'))
+
+    return render(request, 'create_order.html', context)
