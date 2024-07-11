@@ -1,4 +1,8 @@
 {% extends "base.html" %} {% block content %}
 <h1>Create the product</h1>
-
+<form enctype="multipart/form-data" method="post">
+  {% csrf_token %} {{ product_form }}
+  <input type="file" name="image_url" multiple type="image/*" />
+  <input type="submit" value="Submit" />
+</form>
 {% endblock content %}
