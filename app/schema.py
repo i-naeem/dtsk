@@ -1,3 +1,6 @@
+from graphene_django.forms.mutation import DjangoFormMutation
+from graphene_file_upload.scalars import Upload
+from .forms import ImageForm
 import graphene_django
 from . import models
 import graphene
@@ -71,6 +74,23 @@ class OrderType(graphene_django.DjangoObjectType):
         return root.order.all()
 
 
+class CreateImageMutation(graphene.Mutation):
+    class Meta:
+        model = models.Image
+
+    class Arguments:
+        product_id = graphene.ID(required=True)
+        image = Upload(required=True)
+
+    success = graphene.Boolean()
+
+    def mutate(self, info, image, product_id):
+        form = ImageForm(initial={'image': image, 'product': product_id})
+        print(form)
+
+        return CreateImageMutation(success=True)
+
+
 class Query(graphene.ObjectType):
     products = graphene_django.DjangoListField(ProductType)
     images = graphene_django.DjangoListField(ImageType)
@@ -90,8 +110,9 @@ class Query(graphene.ObjectType):
 
 
 class Mutation(graphene.ObjectType):
-    update_product = UpdateCreateProduct.Field()
     delete_product = DeleteProduct.Field()
+    create_image = CreateImageMutation.Field()
+    update_product = UpdateCreateProduct.Field()
 
 
 schema = graphene.Schema(query=Query, mutation=Mutation)

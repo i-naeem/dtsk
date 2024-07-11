@@ -1,6 +1,7 @@
 from django import forms
 from .models import Order
 from .models import Product
+from .models import Image
 
 
 class ProductForm(forms.ModelForm):
@@ -19,3 +20,9 @@ class OrderForm(forms.ModelForm):
     class Meta:
         model = Order
         fields = ["products"]
+
+
+class ImageForm(forms.ModelForm):
+    class Meta:
+        model = Image
+        fields = ["image", "product"]
