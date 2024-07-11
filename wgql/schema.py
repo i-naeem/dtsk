@@ -1,6 +1,7 @@
 import graphene
 import graphene_django
 from wgql import models
+from graphene_file_upload.scalars import Upload
 
 
 class ProductImagesType(graphene_django.DjangoObjectType):
@@ -31,10 +32,16 @@ class ProductMutation(graphene.Mutation):
         product_quantity = graphene.Int(required=True)
         product_price = graphene.Float(required=True)
 
+        images = Upload(required=False, description="Product images")
+
+        if images:
+            print(images)
+
     product = graphene.Field(ProductType)
 
     @classmethod
     def mutate(cls, root, info, product_name, product_quantity, product_price):
+
         product = models.Product(
             product_name=product_name,
             product_quantity=product_quantity,

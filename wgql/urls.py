@@ -1,11 +1,11 @@
 from django.urls import path
 from wgql.schema import schema
-from graphene_django.views import GraphQLView
+from graphene_file_upload.django import FileUploadGraphQLView
 
 from . import views
 
 urlpatterns = [
-    path("graphql", GraphQLView.as_view(graphiql=True, schema=schema)),
+    path("graphql", FileUploadGraphQLView.as_view(graphiql=True, schema=schema)),
     path("", views.index, name="index"),
 
 
