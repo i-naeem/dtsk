@@ -1,30 +1,57 @@
+from django.db.models import Model
+from django.db.models import CASCADE
+from django.db.models import SET_NULL
+from django.db.models import CharField
+from django.db.models import ForeignKey
+from django.db.models import DecimalField
+from django.db.models import DateTimeField
+from django.db.models import BigIntegerField
 
-from django.db import models
 
-
-class Order(models.Model):
-    order_id = models.AutoField(primary_key=True)
-    order_date = models.DateField(auto_now_add=True)
+class Order(Model):
+    created_at = DateTimeField(
+        verbose_name="Created at",
+        auto_now_add=True,
+        auto_created=True
+    )
 
     def __str__(self) -> str:
-        return f"{self.order_id}:{self.order_date}"
+        return self.pk
 
 
-class Product(models.Model):
-    product_name = models.CharField(
-        max_length=255, help_text="Enter the name of the product")
-    product_quantity = models.PositiveIntegerField(
-        help_text="Enter the quantity of the product")
-    product_price = models.DecimalField(
-        max_digits=10, decimal_places=2, help_text="Enter the price of the product")
+class Product(Model):
+    name = CharField(
+        max_length=255,
+        verbose_name="Product Name",
+        help_text="The name of the product"
+    )
 
-    order = models.ForeignKey(Order, on_delete=models.SET_NULL, null=True)
+    price = DecimalField(
+        max_digits=5,
+        decimal_places=2,
+        verbose_name="Product Price",
+    )
+
+    quantity = BigIntegerField(
+        verbose_name="Product Quantity",
+        help_text="The quantity of the product"
+    )
+
+    order_id = ForeignKey(
+        to=Order,
+        related_name="order",
+        verbose_name="Order ID",
+        on_delete=SET_NULL
+    )
+
+    def __str__(self) -> str:
+        return self.name
 
 
-class ProductImages(models.Model):
-    image_id = models.AutoField(primary_key=True)
-    image_url = models.ImageField(
-        upload_to='product_images/', help_text="Select the product images")
-
-    product = models.ForeignKey(
-        Product, related_name="images", on_delete=models.CASCADE)
+class Image(Model):
+    product_id = ForeignKey(
+        to=Product,
+        on_delete=CASCADE,
+        related_name="image",
+        verbose_name="Product Image",
+    )
