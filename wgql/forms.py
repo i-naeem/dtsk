@@ -1,20 +1,34 @@
-from django import forms
-from wgql.models import Product, Order
+from django.forms import ModelMultipleChoiceField
+from django.forms import CheckboxSelectMultiple
+from django.forms import ClearableFileInput
+from django.forms import ModelForm
+from .models import Product
+from .models import Image
+from .models import Order
 
 
-class ProductForm(forms.ModelForm):
-    class Meta:
-        model = Product
-        fields = ["product_name", "product_quantity", "product_price"]
-
-
-class OrderForm(forms.ModelForm):
-    products = forms.ModelMultipleChoiceField(
+class OrderForm(ModelForm):
+    products = ModelMultipleChoiceField(
         queryset=Product.objects.all(),
-        widget=forms.CheckboxSelectMultiple,
-        help_text="Select the products for this order"
+        widget=CheckboxSelectMultiple,
+        help_text="Select the product to create order"
     )
 
     class Meta:
         model = Order
         fields = ["products"]
+
+
+class ProductForm(ModelForm):
+    class Meta:
+        model = Product
+        fields = ["name", "quantity", "price"]
+
+
+class Image(ModelForm):
+    class Meta:
+        model = Image
+        fields = ["image"]
+        widget = {
+            'image': ClearableFileInput(attrs={'multiple': True, 'required': False})
+        }
