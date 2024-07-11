@@ -2,6 +2,8 @@ from django.shortcuts import render
 
 from .models import Product
 
+from .forms import ProductForm
+
 
 def index(request):
     return render(request, 'index.html', {})
@@ -15,7 +17,8 @@ def product(request):
 
 
 def create_product(request):
-    context = {}
+    context = {"form": ProductForm()}
+
     return render(request, "product/create.html", context)
 
 

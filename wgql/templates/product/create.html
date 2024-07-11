@@ -1,0 +1,15 @@
+{% extends "base.html" %} {% block content %}
+
+<h1>List of the Products</h1>
+
+<form method="post" enctype="multipart/form-data">
+  {% csrf_token %} <br />
+  {{ form }} <br />
+
+  <label for="product-images">Select the product images</label>
+  <input type="file" required="false" type="image" multiple id="product-images" />
+
+  <button type="submit">Create product</button>
+</form>
+
+{% endblock content %}
