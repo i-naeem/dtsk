@@ -6,6 +6,19 @@
     <title>Without GraphQL</title>
   </head>
   <body>
+    <header>
+      <style>
+        .nav li {
+          padding: 5px;
+        }
+      </style>
+      <ul class="nav" style="display: flex; list-style-type: none">
+        <li><a href="{% url 'app:index' %}">Home </a></li>
+        <li><a href="#">Create Product </a></li>
+        <li><a href="#">Create Images</a></li>
+        <li><a href="#">Create Order</a></li>
+      </ul>
+    </header>
     <main>{% block content %}{% endblock content %}</main>
   </body>
 </html>
