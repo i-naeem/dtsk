@@ -30,6 +30,7 @@ class Product(Model):
         max_digits=5,
         decimal_places=2,
         verbose_name="Product Price",
+        help_text="The price of the product"
     )
 
     quantity = BigIntegerField(
@@ -54,4 +55,5 @@ class Image(Model):
         on_delete=CASCADE,
         related_name="image",
         verbose_name="Product Image",
+        help="The product image(s)"
     )
