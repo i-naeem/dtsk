@@ -2,6 +2,7 @@ from django.db.models import Model
 from django.db.models import CASCADE
 from django.db.models import SET_NULL
 from django.db.models import CharField
+from django.db.models import ImageField
 from django.db.models import ForeignKey
 from django.db.models import DecimalField
 from django.db.models import DateTimeField
@@ -50,10 +51,17 @@ class Product(Model):
 
 
 class Image(Model):
-    product_id = ForeignKey(
+    product = ForeignKey(
         to=Product,
         on_delete=CASCADE,
-        related_name="image",
+        related_name="product_image",
+        verbose_name="Product",
+        help="The product in the images"
+    )
+
+    image = ImageField(
+        null=True,
+        blank=True,
+        upload_to="images/"
         verbose_name="Product Image",
-        help="The product image(s)"
     )
