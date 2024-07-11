@@ -38,8 +38,9 @@ class Product(models.Model):
         to=Order,
         null=True,
         blank=True,
-        on_delete=models.SET_NULL,
+        related_name="order",
         verbose_name="Order",
+        on_delete=models.SET_NULL,
     )
 
     def __str__(self):
