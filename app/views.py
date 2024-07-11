@@ -14,7 +14,9 @@ def index(request):
 
 
 def product(request, product_id):
-    product = get_object_or_404(Product, pk=product_id)
+    product = get_object_or_404(
+        Product.objects.select_related(), pk=product_id)
+
     return render(request, 'product.html', {"product": product})
 
 
