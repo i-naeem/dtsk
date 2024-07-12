@@ -1,7 +1,9 @@
-from django.shortcuts import render, get_object_or_404, redirect, get_list_or_404
+from django.shortcuts import render, get_object_or_404, redirect
+from django.http import Http404, HttpResponse
 from django.urls import reverse
 from .forms import ProductForm
 from .forms import OrderForm
+from .forms import ImageForm
 from .models import Product
 from .models import Image
 from .models import Order
@@ -61,3 +63,15 @@ def create_order(request):
 
     context = {"form": OrderForm()}
     return render(request, 'create_order.html', context)
+
+
+def create_image(request):
+    context = {"form": ImageForm()}
+    if request.method == "POST":
+        context["form"] = ImageForm(request.POST, request.FILES)
+        f = context["form"]
+        if f.is_valid():
+            f.save()
+            return redirect(reverse('app:product', kwargs={"product_id": f.cleaned_data['product'].id}))
+
+    return render(request, 'create_image.html', context)

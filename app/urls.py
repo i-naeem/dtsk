@@ -10,6 +10,8 @@ urlpatterns = [
     path("graphql", csrf_exempt(
         FileUploadGraphQLView.as_view(graphiql=True, schema=schema))),
 
+    path('create_image', views.create_image, name="create_image"),
+
     path("order/<int:order_id>", views.order, name="order"),
     path("create_order", views.create_order, name="create_order"),
 

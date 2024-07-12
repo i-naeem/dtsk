@@ -1,4 +1,3 @@
-from graphene_django.forms.mutation import DjangoFormMutation
 from graphene_file_upload.scalars import Upload
 from .forms import ImageForm
 import graphene_django
