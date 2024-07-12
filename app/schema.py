@@ -62,6 +62,19 @@ class DeleteProduct(graphene.Mutation):
         return cls(ok=True)
 
 
+class DeleteImage(graphene.Mutation):
+    ok = graphene.Boolean()
+
+    class Arguments:
+        id = graphene.ID(required=True)
+
+    @classmethod
+    def mutate(cls, root, info, id):
+        product = models.Image.objects.get(pk=id)
+        product.delete()
+        return cls(ok=True)
+
+
 class OrderType(graphene_django.DjangoObjectType):
     products = graphene_django.DjangoListField(ProductType)
 
@@ -109,6 +122,7 @@ class Query(graphene.ObjectType):
 
 
 class Mutation(graphene.ObjectType):
+    delete_image = DeleteImage.Field()
     delete_product = DeleteProduct.Field()
     create_image = CreateImageMutation.Field()
     update_product = UpdateCreateProduct.Field()
