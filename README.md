@@ -5,7 +5,7 @@
 2. ✔️ order table is associated with product table in 1 to many relationship
 3. ✔️ product table is associated with product_images in 1 to many relationship
 3. ✔️ create a form and render a view to submit product attributes (name,price,quantity, images)
-4. ✖️ on submit form validate form and show errors on html view
+4. ✔️ on submit form validate form and show errors on html view
 
 ## With GraphQL
 1. ✔️ create type classes of above tables
