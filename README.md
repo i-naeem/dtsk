@@ -16,7 +16,7 @@
     - ✔️ products(multiple products)
     - ✖️ uploadImage(upload an image to product images and associate it with product table) <br/>
       I tried `graphene_file_upload` and everything but I could not find a way to upload image from `graphiql` interface,
-      I can pass the url and assciate that with the product but I was unable to find a way to upload an image from the `graphiql` interface
+      I can pass the url and associate that with the product but I was unable to find a way to upload an image from the `graphiql` interface
       so I created `create_image` view that have the form to upload images and associate those images with product.
 
     - ✔️ deleteImage(delete image)
