@@ -1,0 +1,59 @@
+query Products {
+  products {
+    id
+    name
+    price
+    quantity
+    images {
+      id
+      image
+    }
+  }
+}
+
+query ProductById {
+  product(id: 1) {
+    id
+    name
+    price
+    quantity
+    images {
+      id
+      image
+    }
+  }
+}
+
+query Orders {
+  orders {
+    id
+    products {
+      name
+    }
+  }
+}
+
+query OrderById {
+  order(id: 1) {
+    products {
+      name
+    }
+  }
+}
+
+mutation CreateProduct {
+  updateProduct(name: "New Product", price: "2.10") {
+    product {
+      name
+    }
+  }
+}
+
+mutation UpdateProduct {
+  updateProduct(id: 1, name: "Updated Product Name", price: "2.10") {
+    product {
+      id
+      name
+    }
+  }
+}
